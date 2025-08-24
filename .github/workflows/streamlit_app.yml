@@ -20,12 +20,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run finetune_distilgpt2.py
+      - name: Run app.py (Streamlit main app)
         run: |
-          python finetune_distilgpt2.py
-      - name: Run train_rag_models.py
-        run: |
-          python train_rag_models.py
-      - name: Run financial_qa_app.py
-        run: |
-          python financial_qa_app.py
+          python app.py
