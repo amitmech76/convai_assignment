@@ -121,8 +121,8 @@ python-dateutil==2.9.0.post0
 python-json-logger==3.3.0
 python-multipart==0.0.20
 pytz==2025.2
-pywin32
-pywinpty==3.0.0
+# pywin32
+# pywinpty==3.0.0
 PyYAML==6.0.2
 pyzmq==27.0.1
 referencing==0.36.2
