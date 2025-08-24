@@ -16,10 +16,29 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Install dependencies
+      - name: Install dependencies (fallback)
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run app.py (Streamlit main app)
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: convai_assignment:latest
+
+      - name: Run Docker container (smoke test)
         run: |
-          python app.py
+          docker run -d --name convai_test -p 8501:8501 convai_assignment:latest
+          # wait for streamlit to start
+          sleep 10
+          # basic health check
+          curl -sS --fail http://localhost:8501 || (docker logs convai_test && exit 1)
+        timeout-minutes: 10
+      - name: Stop and remove container
+        if: always()
+        run: |
+          docker stop convai_test || true
+          docker rm convai_test || true
